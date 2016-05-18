@@ -46,6 +46,7 @@
     "blear.utils.function": "1.x"
   },
   "devDependencies": {
+    "blear.utils.howdo": "^1.0.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-coolie": "^2.0.1",

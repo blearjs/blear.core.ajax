@@ -13,7 +13,53 @@ var path = require('path');
 
 // http 服务器
 var httpServer = function (req, res, next) {
-    next();
+    if (req.url.indexOf('/ajax/success/') > -1) {
+
+        res.end(JSON.stringify({
+            code: 200
+        }));
+
+    }
+    else if (req.url.indexOf('/ajax/error/') > -1) {
+        res.statusCode = 500;
+        res.end(JSON.stringify({
+            code: 500
+        }));
+    }
+    else if (req.url.indexOf('/ajax/cache/') > -1) {
+        res.setHeader('Cache-Control', 'max-age=300000');
+
+        res.end(JSON.stringify({
+            code: 200,
+            num: Math.random()
+        }));
+    }
+    else if (req.url.indexOf('/ajax/datatype/') > -1) {
+        var query = req._parsedUrl.query;
+        if (query.indexOf('json') > -1) {
+            res.setHeader('content-type', 'application/json');
+            res.end('text:json');
+        }
+        else if (query.indexOf('html') > -1) {
+            res.setHeader('content-type', 'text/html');
+            res.end('text:html');
+        }
+        else if (query.indexOf('text') > -1) {
+            res.setHeader('content-type', 'text/plain');
+            res.end('text:text');
+        }
+        console.log(req._parsedUrl.query)
+
+    }
+    else if (req.url.indexOf('/ajax/timeout/') > -1) {
+        setTimeout(function () {
+            res.end(JSON.stringify({
+                code: 200
+            }));
+        }, 20000)
+    } else {
+        next();
+    }
 };
 
 
