@@ -5,62 +5,122 @@
 [travis-img]: https://travis-ci.org/blearjs/blear.core.ajax.svg?branch=master
 [travis-url]: https://travis-ci.org/blearjs/blear.core.ajax
 
-## `.query(selector<String,Node>, [context<Node>])`
-在上下文里根据元素选择器查找元素，返回数组。
+
+## `ajax(options)`
+```
+var defaults = {
+    /**
+     * 请求方法
+     * @type string
+     */
+    method: 'GET',
+    // Callback that is executed before request
+
+    /**
+     * 正在发送数据是回调，返回 false 中断请求
+     * @type function
+     */
+    onSend: noop,
+
+    /**
+     * 获取到响应内容后回调
+     * @type function
+     */
+    onResponse: noop,
+
+    /**
+     * 响应完成并正确处理后回调
+     * @type function
+     */
+    onSuccess: noop,
+
+    /**
+     * 响应错误或者未能正确处理响应内容
+     * @type function
+     */
+    onError: noop,
+
+    /**
+     * 所有处理已结束后回调
+     * @type function
+     */
+    onComplete: noop,
+
+    /**
+     * 请求进度回调
+     * @type function
+     */
+    onProgress: noop,
+
+    /**
+     * 期望响应的数据类型
+     * @type string
+     */
+    dataType: 'json',
 
 
-## `.contains(childEl, parentEl)`
-判断 childEl 是否被 parentEl 包含。
+    /**
+     * 允许的响应内容 map
+     * @type object
+     */
+    accepts: {
+        json: APPLICATION_JSON_MIME,
+        html: TEXT_HTML_MIME,
+        text: TEXT_PLAIN_MIME
+    },
 
+    /**
+     * 是否遵循缓存策略
+     * @type boolean
+     */
+    cache: true,
 
-## `.siblings(el)`
-返回 el 元素的兄弟元素数组。
+    /**
+     * 是否跨域
+     * @type boolean
+     */
+    crossDomain: false,
+    // Default timeout
 
+    /**
+     * 请求超时时间，0为不主动超时
+     */
+    timeout: 0,
 
-## `.index(el)`
-返回 el 元素在兄弟元素中的索引值。
+    /**
+     * 请求的 url query
+     * @type object|string
+     */
+    query: null,
 
+    /**
+     * 请求发送的数据
+     * @type object|string
+     */
+    body: null,
 
-## `.prev(el)`
-返回 el 元素的前面的一个元素数组。
+    /**
+     * 回调的上下文
+     * @type object
+     */
+    context: null,
 
+    /**
+     * 异步请求
+     * @type boolean
+     */
+    async: true,
 
-## `.next(el)`
-返回 el 元素的后面的一个元素数组。
+    /**
+     * 请求鉴权用户名
+     * @type string|null
+     */
+    username: null,
 
-
-## `.prevAll(el)`
-返回 el 元素的前面的所有元素数组。
-
-
-## `.nextAll(el)`
-返回 el 元素的后面的所有元素数组。
-
-
-
-## `.closest(el, selector)`
-从 el 元素本身开始获得最近匹配的祖先元素数组。
-
-
-## `.parent(el)`
-返回 el 元素的父级元素数组。
-
-
-## `.children(el)`
-返回 el 元素的子级元素数组。
-
-
-## `.contents(el)`
-返回 el 元素的子节点数组。
-
-
-
-## `.isMatched(el, sel)`
-判断元素是否匹配选择器。
-
-
-## `.filter(nodeList, filter)`
-根据 filter 函数过滤 nodeList （类）数组
-
-
-
+    /**
+     * 请求鉴权密码
+     * @type string|null
+     */
+    password: null
+};
+```
