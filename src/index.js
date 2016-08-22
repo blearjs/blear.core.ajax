@@ -196,7 +196,7 @@ var ajax = module.exports = function (options) {
     var requestQuery = object.assign({}, options.query);
 
     if (!options.cache) {
-        requestQuery._ = Math.random();
+        requestQuery._ = new Date().getTime();
     }
 
     requestURL = url.assignQuery(requestURL, requestQuery);
@@ -236,7 +236,6 @@ var ajax = module.exports = function (options) {
         if (requestAborted) {
             return;
         }
-
 
         // 接收到响应，允许重写响应内容等信息
         callback(options.onResponse);
