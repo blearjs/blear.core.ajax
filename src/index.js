@@ -196,7 +196,7 @@ var ajax = module.exports = function (options) {
     var requestQuery = object.assign({}, options.query);
 
     if (!options.cache) {
-        requestQuery._ = new Date().getTime();
+        requestQuery._ = Math.random();
     }
 
     requestURL = url.assignQuery(requestURL, requestQuery);
@@ -224,9 +224,9 @@ var ajax = module.exports = function (options) {
         xhr.overrideMimeType && xhr.overrideMimeType(mime)
     }
 
-    if (options.contentType ||
+    if (!options.contentType &&
         // 不允许重写 formData 的 content-type
-        (requestMethod !== 'GET' && FormData && requestBody && requestBody.constructor === FormData)) {
+        !(requestMethod !== 'GET' && FormData && requestBody && requestBody.constructor === FormData)) {
         requestHeaders['content-type'] = options.contentType || APPLICATION_URLENCODED_MIME;
     }
 
@@ -236,6 +236,7 @@ var ajax = module.exports = function (options) {
         if (requestAborted) {
             return;
         }
+
 
         // 接收到响应，允许重写响应内容等信息
         callback(options.onResponse);
