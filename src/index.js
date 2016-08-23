@@ -224,7 +224,7 @@ var ajax = module.exports = function (options) {
         xhr.overrideMimeType && xhr.overrideMimeType(mime)
     }
 
-    if (!options.contentType &&
+    if (options.contentType &&
         // 不允许重写 formData 的 content-type
         !(requestMethod !== 'GET' && FormData && requestBody && requestBody.constructor === FormData)) {
         requestHeaders['content-type'] = options.contentType || APPLICATION_URLENCODED_MIME;
