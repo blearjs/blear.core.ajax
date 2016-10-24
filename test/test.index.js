@@ -27,11 +27,11 @@ describe('测试文件', function () {
         ajax({
             url:'/ajax/error/',
             onError:function(err){
-                expect(err.message).toEqual('response status is 500');
+                expect(!!err.message).toBe(true);
                 //done();
             },
             onComplete:function(err){
-                expect(err.message).toEqual('response status is 500');
+                expect(!!err.message).toBe(true);
                 done();
             }
         });
@@ -41,7 +41,7 @@ describe('测试文件', function () {
         var xhr = ajax({
             url:'/ajax/success/',
             onError:function(err){
-                expect(err.message).toEqual('request aborted');
+                expect(!!err.message).toBe(true);
                 done();
             }
         });
@@ -120,7 +120,7 @@ describe('测试文件', function () {
                 return false;
             },
             onError:function(err){
-                expect(err.message).toEqual('request aborted');
+                expect(!!err.message).toBe(true);
                 done();
             }
         });
@@ -131,7 +131,7 @@ describe('测试文件', function () {
             url:'/ajax/timeout/',
             timeout:1,
             onError:function(err){
-                expect(err.message).toEqual('request timeout in 1 ms');
+                expect(!!err.message).toBe(true);
                 done();
             }
         });
@@ -141,7 +141,7 @@ describe('测试文件', function () {
         ajax({
             url:'http://www.baidu.com',
             onError:function(err){
-                expect(err.message).toEqual('error');
+                expect(!!err.message).toBe(true);
                 done();
             }
         });
