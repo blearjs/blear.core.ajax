@@ -8,14 +8,14 @@
 'use strict';
 
 
-var typeis =      require('blear.utils.typeis');
-var object =      require('blear.utils.object');
+var typeis = require('blear.utils.typeis');
+var object = require('blear.utils.object');
 var querystring = require('blear.utils.querystring');
-var json =        require('blear.utils.json');
-var access =      require('blear.utils.access');
-var url =         require('blear.utils.url');
-var compatible =  require('blear.utils.compatible');
-var fun =         require('blear.utils.function');
+var json = require('blear.utils.json');
+var access = require('blear.utils.access');
+var url = require('blear.utils.url');
+var compatible = require('blear.utils.compatible');
+var fun = require('blear.utils.function');
 
 
 var win = window;
@@ -237,7 +237,6 @@ var ajax = module.exports = function (options) {
             return;
         }
 
-
         // 接收到响应，允许重写响应内容等信息
         callback(options.onResponse);
 
@@ -254,7 +253,7 @@ var ajax = module.exports = function (options) {
                 try {
                     result = json.parse(result);
                 } catch (_err) {
-                    err = new Error('parse response text to json:\n' + _err.message);
+                    err = new Error('响应数据解析失败\n' + _err.message);
                 }
             }
 
@@ -265,7 +264,7 @@ var ajax = module.exports = function (options) {
                 callback(options.onSuccess, result);
             }
         } else {
-            callback(options.onError, err = new Error('response status is ' + responseStatusCode));
+            callback(options.onError, err = new Error(result || ('响应码为' + responseStatusCode)));
         }
 
         callback(options.onComplete, err);
@@ -277,7 +276,7 @@ var ajax = module.exports = function (options) {
             return;
         }
 
-        var err = new Error('request aborted');
+        var err = new Error('请求被中断');
         requestAborted = true;
         callback(options.onError, err);
         callback(options.onComplete, err);
@@ -285,7 +284,15 @@ var ajax = module.exports = function (options) {
     };
 
     xhr.onerror = function (eve) {
-        var err = new Error(eve.type);
+        var errMsg = '网络连接失败';
+
+        switch (xhr.status) {
+            case 0:
+                errMsg = '请求未成功发送';
+                break;
+        }
+
+        var err = new Error(errMsg);
         callback(options.onError, err);
         callback(options.onComplete, err);
         cleanup();
@@ -298,7 +305,7 @@ var ajax = module.exports = function (options) {
     }
 
     if (options.onSend(xhr, options) === false) {
-        var err = new Error('request aborted');
+        var err = new Error('请求被取消');
         callback(options.onError, err);
         callback(options.onComplete, err);
         cleanup();
@@ -331,7 +338,7 @@ var ajax = module.exports = function (options) {
 
             requestAborted = true;
             xhr.abort();
-            var err = new Error('request timeout in ' + options.timeout + ' ms');
+            var err = new Error('响应在 ' + options.timeout + ' ms 后超时');
             callback(options.onError, err);
             callback(options.onComplete, err);
             cleanup();

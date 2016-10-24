@@ -1,6 +1,6 @@
 {
   "name": "blear.core.ajax",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "AJAX",
   "scripts": {
     "live": "browser-sync start --config bs-config.js",
