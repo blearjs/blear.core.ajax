@@ -199,7 +199,7 @@ var ajax = module.exports = function (options) {
         requestQuery._ = Math.random();
     }
 
-    requestURL = url.assignQuery(requestURL, requestQuery);
+    requestURL = url.setQuery(requestURL, requestQuery);
 
     var dataType = options.dataType;
     var requestMethod = options.method.toUpperCase();
