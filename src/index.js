@@ -55,7 +55,81 @@ var defaults = {
      * @type string
      */
     method: 'GET',
-    // Callback that is executed before request
+
+    /**
+     * 请求地址
+     * @type string
+     */
+    url: '',
+
+    /**
+     * 请求的 url query
+     * @type object|string
+     */
+    query: null,
+
+    /**
+     * 请求发送的数据
+     * @type object|string
+     */
+    body: null,
+
+    /**
+     * 回调的上下文
+     * @type object
+     */
+    context: null,
+
+    /**
+     * 期望响应的数据类型
+     * @type string
+     */
+    dataType: 'json',
+
+    /**
+     * 允许的响应内容 map
+     * @type object
+     */
+    accepts: {
+        json: APPLICATION_JSON_MIME,
+        html: TEXT_HTML_MIME,
+        text: TEXT_PLAIN_MIME
+    },
+
+    /**
+     * 是否遵循缓存策略
+     * @type boolean
+     */
+    cache: true,
+
+    /**
+     * 是否跨域
+     * @type boolean
+     */
+    crossDomain: false,
+
+    /**
+     * 请求超时时间，0为不主动超时
+     */
+    timeout: 0,
+
+    /**
+     * 异步请求
+     * @type boolean
+     */
+    async: true,
+
+    /**
+     * 请求鉴权用户名
+     * @type string|null
+     */
+    username: null,
+
+    /**
+     * 请求鉴权密码
+     * @type string|null
+     */
+    password: null,
 
     /**
      * 正在发送数据是回调，返回 false 中断请求
@@ -91,78 +165,7 @@ var defaults = {
      * 请求进度回调
      * @type function
      */
-    onProgress: noop,
-
-    /**
-     * 期望响应的数据类型
-     * @type string
-     */
-    dataType: 'json',
-
-
-    /**
-     * 允许的响应内容 map
-     * @type object
-     */
-    accepts: {
-        json: APPLICATION_JSON_MIME,
-        html: TEXT_HTML_MIME,
-        text: TEXT_PLAIN_MIME
-    },
-
-    /**
-     * 是否遵循缓存策略
-     * @type boolean
-     */
-    cache: true,
-
-    /**
-     * 是否跨域
-     * @type boolean
-     */
-    crossDomain: false,
-    // Default timeout
-
-    /**
-     * 请求超时时间，0为不主动超时
-     */
-    timeout: 0,
-
-    /**
-     * 请求的 url query
-     * @type object|string
-     */
-    query: null,
-
-    /**
-     * 请求发送的数据
-     * @type object|string
-     */
-    body: null,
-
-    /**
-     * 回调的上下文
-     * @type object
-     */
-    context: null,
-
-    /**
-     * 异步请求
-     * @type boolean
-     */
-    async: true,
-
-    /**
-     * 请求鉴权用户名
-     * @type string|null
-     */
-    username: null,
-
-    /**
-     * 请求鉴权密码
-     * @type string|null
-     */
-    password: null
+    onProgress: noop
 };
 
 
