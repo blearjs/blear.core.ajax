@@ -88,6 +88,11 @@ var defaults = {
     dataType: 'json',
 
     /**
+     * 请求数据类型
+     */
+    contentType: 'application/json',
+
+    /**
      * 允许的响应内容 map
      * @type object
      */
@@ -208,15 +213,17 @@ var ajax = module.exports = function (options) {
     var dataType = options.dataType;
     var requestMethod = options.method.toUpperCase();
     var requestBody = options.body;
+    var requestContentType = options.contentType;
     var mime = options.accepts[dataType];
     var requestHeaders = object.assign({}, options.headers);
     var abortTimeout;
+    var isGET = requestMethod === 'GET';
 
     if (!options.crossDomain) {
         requestHeaders['x-requested-with'] = 'XMLHttpRequest';
     }
 
-    if (requestMethod === 'GET') {
+    if (isGET) {
         requestBody = null;
     }
 
@@ -228,10 +235,14 @@ var ajax = module.exports = function (options) {
         xhr.overrideMimeType && xhr.overrideMimeType(mime)
     }
 
-    if (options.contentType &&
+    if (typeis.Object(requestBody) && !isGET && /\/json/i.test(requestContentType)) {
+        requestBody = json.safeStringify(requestBody);
+    }
+
+    if (requestContentType &&
         // 不允许重写 formData 的 content-type
-        !(requestMethod !== 'GET' && FormData && requestBody && requestBody.constructor === FormData)) {
-        requestHeaders['content-type'] = options.contentType || APPLICATION_URLENCODED_MIME;
+        !(!isGET && FormData && requestBody && requestBody.constructor === FormData)) {
+        requestHeaders['content-type'] = requestContentType || APPLICATION_URLENCODED_MIME;
     }
 
     var requestAborted = false;
