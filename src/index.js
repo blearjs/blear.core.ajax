@@ -48,7 +48,7 @@ var mimeToDataType = function mimeToDataType(mime) {
 };
 
 // Empty function, used as default callback
-var noop = fun.noop();
+var noop = fun.ensure();
 
 var defaults = {
     /**
