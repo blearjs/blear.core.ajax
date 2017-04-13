@@ -126,6 +126,13 @@ var defaults = {
     async: true,
 
     /**
+     * 是否重写请求方法，如果设置为 true，则会在请求头里添加
+     * x-http-method-override 字段，标记了原始的请求方法
+     * @type Boolean
+     */
+    httpMethodOverride: false,
+
+    /**
      * 请求鉴权用户名
      * @type string|null
      */
