@@ -12,52 +12,60 @@ var TRAVIS = process.env.TRAVIS;
 
 // http 服务器
 var httpServer = function (req, res, next) {
-    if (req.url.indexOf('/ajax/success/') > -1) {
+    console.log(req.method, req.url);
 
-        res.end(JSON.stringify({
-            code: 200
-        }));
-
-    }
-    else if (req.url.indexOf('/ajax/error/') > -1) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({
-            code: 500
-        }));
-    }
-    else if (req.url.indexOf('/ajax/cache/') > -1) {
-        res.setHeader('Cache-Control', 'max-age=300000');
-
-        res.end(JSON.stringify({
-            code: 200,
-            num: Math.random()
-        }));
-    }
-    else if (req.url.indexOf('/ajax/datatype/') > -1) {
-        var query = req._parsedUrl.query;
-        if (query.indexOf('json') > -1) {
-            res.setHeader('content-type', 'application/json');
-            res.end('text:json');
-        }
-        else if (query.indexOf('html') > -1) {
-            res.setHeader('content-type', 'text/html');
-            res.end('text:html');
-        }
-        else if (query.indexOf('text') > -1) {
-            res.setHeader('content-type', 'text/plain');
-            res.end('text:text');
-        }
-        console.log(req._parsedUrl.query)
-
-    }
-    else if (req.url.indexOf('/ajax/timeout/') > -1) {
-        setTimeout(function () {
+    switch (req._parsedUrl.pathname) {
+        case '/ajax/success/':
             res.end(JSON.stringify({
                 code: 200
             }));
-        }, 20000)
-    } else {
-        next();
+            break;
+
+        case '/ajax/error/':
+            res.statusCode = 500;
+            res.end(JSON.stringify({
+                code: 500
+            }));
+            break;
+
+        case '/ajax/cache/':
+            res.setHeader('Cache-Control', 'max-age=300000');
+            res.end(JSON.stringify({
+                code: 200,
+                num: Math.random()
+            }));
+            break;
+
+        case '/ajax/datatype/':
+            var query = req._parsedUrl.query;
+            if (query.indexOf('json') > -1) {
+                res.setHeader('content-type', 'application/json');
+                res.end('text:json');
+            }
+            else if (query.indexOf('html') > -1) {
+                res.setHeader('content-type', 'text/html');
+                res.end('text:html');
+            }
+            else if (query.indexOf('text') > -1) {
+                res.setHeader('content-type', 'text/plain');
+                res.end('text:text');
+            }
+            break;
+
+        case '/ajax/timeout/':
+            setTimeout(function () {
+                res.end(JSON.stringify({
+                    code: 200
+                }));
+            }, 20000);
+            break;
+
+        case '/ajax/http-method-override/':
+            res.end(req.method + '/' + req.headers['x-http-method-override']);
+            break;
+
+        default:
+            res.end('NOT FOUND');
     }
 };
 

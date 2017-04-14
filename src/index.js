@@ -232,6 +232,9 @@ var ajax = module.exports = function (options) {
 
     if (isGET) {
         requestBody = null;
+    } else if (options.httpMethodOverride && requestMethod !== 'POST') {
+        requestHeaders['x-http-method-override'] = requestMethod;
+        requestMethod = 'POST';
     }
 
     if (mime) {

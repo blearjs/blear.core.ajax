@@ -20,7 +20,7 @@ describe('测试文件', function () {
                 expect(data.code).toEqual(200);
                 done();
             }
-        })
+        });
     });
 
     it('error', function (done) {
@@ -142,6 +142,19 @@ describe('测试文件', function () {
             url: 'http://www.baidu.com',
             onError: function (err) {
                 expect(!!err.message).toBe(true);
+                done();
+            }
+        });
+    });
+
+    it('http-method-override', function (done) {
+        ajax({
+            url: '/ajax/http-method-override/',
+            method: 'DELETE',
+            dataType: 'text',
+            httpMethodOverride: true,
+            onSuccess: function (res) {
+                expect(res).toBe('POST/DELETE');
                 done();
             }
         });
